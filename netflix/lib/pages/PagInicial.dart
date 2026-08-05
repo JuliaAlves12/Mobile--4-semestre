@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:netflix/components/botao.dart';
 import 'package:netflix/components/input.dart';
+import 'package:netflix/pages/TelaHome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class PagInicial extends StatelessWidget {
-  PagInicial({super.key});
+class Paginicial extends StatefulWidget {
+  const Paginicial({super.key});
+
+  @override
+  State<Paginicial> createState() => _PaginicialState();
+}
+
+class _PaginicialState extends State<Paginicial> {
+  TextEditingController email = TextEditingController();
+  TextEditingController senha = TextEditingController();
+  /* TextEditingController é uma variável que "observa" e grava o que você digita */
+  
+  // Função para salvar o dados dentro do banco Interno do Celular
+  void SalvarDados() async {
+    //abrir uma instância do banco
+    dynamic banco = await SharedPreferences.getInstance();
+    /* Aguarda o banco salvar dentro do celular no campo Email, o email que o usuário digitou */
+    await banco.setString("email", email.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +41,14 @@ class PagInicial extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 32),
-              InputComponent(titulo: 'Email', icone: Icons.email),
+              InputComponent(titulo: 'Email', icone: Icons.email, controller: email),
               SizedBox(height: 24),
-              InputComponent(titulo: 'Password', icone: Icons.key),
+              InputComponent(titulo: 'Password', icone: Icons.key, controller: senha),
               SizedBox(height: 32),
-              Botao(texto: 'Sign In'),
+              TextButton(onPressed: () {
+                SalvarDados();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TelaHome()));
+              }, child: Text("Login")),
               SizedBox(height: 52),
               Text.rich(
                 TextSpan(

@@ -12,7 +12,7 @@ class Netflix extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: PagInicial(),
+      home: Paginicial(),
     );
   }
 }

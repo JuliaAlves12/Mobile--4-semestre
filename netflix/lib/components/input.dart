@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class InputComponent extends StatelessWidget {
   final String titulo;
   final IconData icone;
+  final TextEditingController controller;
 
   InputComponent({
-    super.key, required this.titulo, required this.icone
+    super.key, required this.titulo, required this.icone, required this.controller
   });
 
   @override
@@ -19,6 +20,7 @@ class InputComponent extends StatelessWidget {
         ),
         SizedBox(height: 8),
         TextField(
+          controller: controller,
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
