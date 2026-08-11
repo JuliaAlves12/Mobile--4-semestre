@@ -9,18 +9,39 @@ class TelaHome extends StatefulWidget {
 }
 
 class _TelaHomeState extends State<TelaHome> {
-  String? email;
+  String? email; //pode ser nulo (a ? faz isso)
   String? senha;
 
   void carregarDados() async {
     dynamic banco = await SharedPreferences.getInstance();
     setState(() {
-      email = banco.getString("email");
+      email = banco.getString("email") ?? "Não foi logado";
+      //Caso não tenha nada no banco, a variável fica vazia
+      //isso evita de ficar null
     });
   }
 
   @override
+  void initState() {
+    super.initState();
+    carregarDados();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+          TextButton(style: TextButton.styleFrom(foregroundColor: Colors.white), onPressed: (){}, child: Icon(Icons.add)),
+          Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqNC1qkPr07dpqC-tj6TsVkVbxGXY5n62pKXoNZnw5Zg&s=10", width: 100),
+          Text("$email", style: TextStyle(color: Colors.white),)
+        ],
+        ),
+        backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+      ),
+    );
   }
 }
