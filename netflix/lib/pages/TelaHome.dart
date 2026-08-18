@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netflix/pages/NovoFilme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TelaHome extends StatefulWidget {
@@ -34,7 +35,9 @@ class _TelaHomeState extends State<TelaHome> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-          TextButton(style: TextButton.styleFrom(foregroundColor: Colors.white), onPressed: (){}, child: Icon(Icons.add)),
+          TextButton(style: TextButton.styleFrom(foregroundColor: Colors.white), onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>NovoFilme()));
+          }, child: Icon(Icons.add)),
           Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqNC1qkPr07dpqC-tj6TsVkVbxGXY5n62pKXoNZnw5Zg&s=10", width: 100),
           Text("$email", style: TextStyle(color: Colors.white),)
         ],
