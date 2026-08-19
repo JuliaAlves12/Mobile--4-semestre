@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netflix/pages/TelaHome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NovoFilme extends StatefulWidget {
@@ -15,10 +16,11 @@ class _NovoFilmeState extends State<NovoFilme> {
   TextEditingController ano = TextEditingController();
   TextEditingController genero = TextEditingController();
 
-  List<String> filmes = []; //Lista que so aceita string
+  // List<String> filmes = []; //Lista que so aceita string
 
   void salvarFilme() async {
     dynamic banco = await SharedPreferences.getInstance();
+    List<String> filmes = banco.getStringList("filmes") ?? [];
     setState(() { //altera valor da lista
       String filme = "${titulo.text}|${imagem.text}|${ano.text}|${genero.text}";
       filmes.add(filme);
@@ -27,6 +29,7 @@ class _NovoFilmeState extends State<NovoFilme> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Filme Cadastrado com Sucesso"))
     );
+    Navigator.push(context, MaterialPageRoute(builder: (context) => TelaHome()));
   }
 
   @override
