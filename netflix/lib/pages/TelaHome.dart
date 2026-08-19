@@ -72,7 +72,14 @@ class _TelaHomeState extends State<TelaHome> {
                 crossAxisCount: 2,
               ),
               children: [
-                
+                for(String filme in filmes)
+                Column(children: [
+                  Image.network(filme.split("|")[1], width: 100),
+                  Text(filme.split("|")[0]),
+                  Text(filme.split("|")[2]),
+                  Text(filme.split("|")[3]),
+                  TextButton(onPressed: ()=>deletarDados(filme), child:Text("Deletar"))
+                ],)
               ],
             ),
     );
