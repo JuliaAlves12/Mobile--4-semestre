@@ -12,14 +12,24 @@ class TelaHome extends StatefulWidget {
 class _TelaHomeState extends State<TelaHome> {
   String? email; //pode ser nulo (a ? faz isso)
   String? senha;
+  List<String> filmes = [];
 
   void carregarDados() async {
     dynamic banco = await SharedPreferences.getInstance();
     setState(() {
       email = banco.getString("email") ?? "Não foi logado";
+      filmes = banco.getStringList("filmes") ?? [];
       //Caso não tenha nada no banco, a variável fica vazia
       //isso evita de ficar null
     });
+  }
+
+  void deletarDados(String filme) async {
+    dynamic banco = await SharedPreferences.getInstance();
+    setState(() {
+      filmes.remove(filme);
+    });
+    await banco.getStringList("filmes", filmes);
   }
 
   @override
@@ -35,16 +45,36 @@ class _TelaHomeState extends State<TelaHome> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-          TextButton(style: TextButton.styleFrom(foregroundColor: Colors.white), onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>NovoFilme()));
-          }, child: Icon(Icons.add)),
-          Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqNC1qkPr07dpqC-tj6TsVkVbxGXY5n62pKXoNZnw5Zg&s=10", width: 100),
-          Text("$email", style: TextStyle(color: Colors.white),)
-        ],
+            TextButton(
+              style: TextButton.styleFrom(foregroundColor: Colors.white),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NovoFilme()),
+                );
+              },
+              child: Icon(Icons.add),
+            ),
+            Image.network(
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqNC1qkPr07dpqC-tj6TsVkVbxGXY5n62pKXoNZnw5Zg&s=10",
+              width: 100,
+            ),
+            Text("$email", style: TextStyle(color: Colors.white)),
+          ],
         ),
         backgroundColor: Colors.black,
         automaticallyImplyLeading: false,
       ),
+      body: filmes.isEmpty
+          ? Center(child: Text("Não há filmes cadastrados"))
+          : GridView(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              children: [
+                
+              ],
+            ),
     );
   }
 }
